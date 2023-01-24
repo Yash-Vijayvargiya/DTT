@@ -9,10 +9,7 @@ import java.util.Objects;
 @Table(uniqueConstraints = {
         @UniqueConstraint(name = "student_email_unique", columnNames = "EMAIL_ID")
 })
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
+@Data
 @NoArgsConstructor
 public class Student {
     @Id
