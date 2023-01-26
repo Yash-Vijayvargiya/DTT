@@ -13,8 +13,8 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long course_id;
-@Column(unique = true)
-private String name;
+    @Column(unique = true)
+    private String name;
     @Column(unique = true)
     private String code;
     private String dept;

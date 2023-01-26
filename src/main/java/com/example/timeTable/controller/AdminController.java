@@ -3,7 +3,6 @@ package com.example.timeTable.controller;
 import com.example.timeTable.model.entities.Course;
 import com.example.timeTable.model.requestModel.CourseLabRequest;
 import com.example.timeTable.model.requestModel.CourseRequest;
-import com.example.timeTable.model.requestModel.ProfessorRequest;
 import com.example.timeTable.model.requestModel.TimeTableRequest;
 import com.example.timeTable.model.responseModel.TimeTableResponse;
 import com.example.timeTable.service.CourseLabService;
@@ -37,11 +36,11 @@ public class AdminController {
         courseService.createCourse(courseRequest);
         return "Successful Insert";
     }
-    @PostMapping("/professor")
-    public String createProfessor(@RequestBody ProfessorRequest professorRequest){
-        professorService.createProfessor(professorRequest);
-        return "Successful Insert";
-    }
+//    @PostMapping("/professor")
+//    public String createProfessor(@RequestBody ProfessorRequest professorRequest){
+//        professorService.createProfessor(professorRequest);
+//        return "Successful Insert";
+//    }
     @PostMapping("/timetable/{branch}/{sem}")
     public String createTimeTable(@PathVariable("branch") String branch,@PathVariable("sem")String sem,@RequestBody List<TimeTableRequest> timeTableRequestList){
         timeTableService.createTimeTable(branch+"_"+sem,timeTableRequestList);

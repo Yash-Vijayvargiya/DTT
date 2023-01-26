@@ -1,10 +1,11 @@
 package com.example.timeTable.service;
 
 import com.example.timeTable.config.JwtService;
-import com.example.timeTable.model.entities.Role;
 import com.example.timeTable.model.entities.User;
 import com.example.timeTable.model.requestModel.AuthenticateRequest;
-import com.example.timeTable.model.requestModel.RegisterRequest;
+import com.example.timeTable.model.requestModel.RegisterAdminRequest;
+import com.example.timeTable.model.requestModel.RegisterProfessorRequest;
+import com.example.timeTable.model.requestModel.RegisterStudentRequest;
 import com.example.timeTable.model.responseModel.AuthenticationResponse;
 import com.example.timeTable.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +22,35 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    public AuthenticationResponse register(RegisterRequest request) {
+
+    public AuthenticationResponse registerAdmin(RegisterAdminRequest request) {
         var user= User.builder()
-                .name(request.getName())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
-                .build();
+            .email(request.getEmail())
+            .password(passwordEncoder.encode(request.getPassword()))
+            .role(request.getRole())
+            .build();
+        userRepository.save(user);
+        var jwtToken=jwtService.generateToken(user);
+        return AuthenticationResponse.builder().token(jwtToken).build();
+    }
+
+    public AuthenticationResponse registerStudent(RegisterStudentRequest request) {
+        var user= User.builder()
+            .email(request.getEmail())
+            .password(passwordEncoder.encode(request.getPassword()))
+            .role(request.getRole())
+            .build();
+        userRepository.save(user);
+        var jwtToken=jwtService.generateToken(user);
+        return AuthenticationResponse.builder().token(jwtToken).build();
+    }
+
+    public AuthenticationResponse registerProfessor(RegisterProfessorRequest request) {
+        var user= User.builder()
+            .email(request.getEmail())
+            .password(passwordEncoder.encode(request.getPassword()))
+            .role(request.getRole())
+            .build();
         userRepository.save(user);
         var jwtToken=jwtService.generateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).build();

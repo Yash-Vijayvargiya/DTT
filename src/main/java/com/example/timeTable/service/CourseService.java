@@ -22,7 +22,7 @@ public class CourseService {
         course.setName(courseRequest.getName());
         course.setCode(courseRequest.getCode());
         course.setDept(courseRequest.getDept());
-        Professor professor=professorRepository.findByEmailId(courseRequest.getProfessorRequest().getEmailId());
+        Professor professor=professorRepository.findByEmailId(courseRequest.getProfessorEmail());
         course.setProfessor(professor);
         courseRepository.save(course);
     }
