@@ -31,16 +31,18 @@ public class AdminController {
     public List<TimeTableResponse> getTimeTable(@PathVariable("branch") String branch,@PathVariable ("sem")String sem){
         return timeTableService.getTimeTable(branch+"_"+sem);
     }
+
+    @GetMapping("/timetable/getWeek/{branch}/{sem}/{group}/{date}")
+    public List<TimeTableResponse> getWeekTimeTable(@PathVariable("branch") String branch,@PathVariable ("sem")String sem, @PathVariable ("group")String group, @PathVariable ("date")String date){
+        return timeTableService.getWeekTimeTable(branch+"_"+sem, date, group);
+    }
+
     @PostMapping("/course")
     public String createCourse(@RequestBody CourseRequest courseRequest){
         courseService.createCourse(courseRequest);
         return "Successful Insert";
     }
-//    @PostMapping("/professor")
-//    public String createProfessor(@RequestBody ProfessorRequest professorRequest){
-//        professorService.createProfessor(professorRequest);
-//        return "Successful Insert";
-//    }
+
     @PostMapping("/timetable/{branch}/{sem}")
     public String createTimeTable(@PathVariable("branch") String branch,@PathVariable("sem")String sem,@RequestBody List<TimeTableRequest> timeTableRequestList){
         timeTableService.createTimeTable(branch+"_"+sem,timeTableRequestList);

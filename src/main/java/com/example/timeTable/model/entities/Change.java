@@ -12,7 +12,8 @@ import java.util.Date;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-public class Changes {
+@AllArgsConstructor
+public class Change {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -26,17 +27,18 @@ public class Changes {
             )
     )
     private TimeTable timeTable;
+
     @Column(name="date_in")
     private Date dateIn;
+
     @Column(name = "date_out")
     private Date dateOut;
-    private Boolean type;
 
-    public Changes(Long id, TimeTable timeTable, Date dateIn, Date dateOut, Boolean type) {
-        this.id = id;
-        this.timeTable = timeTable;
-        this.dateIn = dateIn;
-        this.dateOut = dateOut;
-        this.type = type;
-    }
+    @ManyToOne(targetEntity = Course.class)
+    private Course course;
+
+    @ManyToOne(targetEntity = CourseLab.class)
+    private CourseLab courseLab;
+
+    private String type;
 }

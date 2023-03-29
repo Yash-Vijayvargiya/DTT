@@ -26,6 +26,4 @@ public class Course {
 
     @OneToMany(mappedBy = "course")
     private List<TimeTable> timeTable;
-
-
 }
