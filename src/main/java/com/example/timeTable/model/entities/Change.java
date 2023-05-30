@@ -41,4 +41,5 @@ public class Change {
     private CourseLab courseLab;
 
     private String type;
+    private String loc;
 }

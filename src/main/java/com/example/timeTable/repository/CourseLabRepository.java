@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface CourseLabRepository extends JpaRepository<CourseLab,Long> {
+    List<CourseLab> findByProfessor_EmailId(String emailId);
     CourseLab findByCodeAndGrp(String code, String grp);
 
 

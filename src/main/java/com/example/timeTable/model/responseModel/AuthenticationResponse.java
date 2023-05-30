@@ -1,5 +1,6 @@
 package com.example.timeTable.model.responseModel;
 
+import com.example.timeTable.model.entities.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,5 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthenticationResponse {
+    private String userName;
+    private String classId;
+    private Role role;
     private String token;
+    private String emailId;
 }

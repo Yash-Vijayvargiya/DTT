@@ -49,7 +49,7 @@ public class TimeTableService {
             timeTable.setDay(timeTableRequest.getDay());
             timeTable.setPeriod(timeTableRequest.getPeriod());
             timeTable.setGrp(timeTableRequest.getGrp());
-            CourseLab courseLab=courseLabRepository.findByCodeAndGrp(timeTableRequest.getCourseCode(),timeTableRequest.getGrp());
+            timeTable.setLoc(timeTableRequest.getLoc());
 
             if(timeTableRequest.getType()!=null && (timeTableRequest.getType().equalsIgnoreCase("class") || timeTableRequest.getType().equalsIgnoreCase("tut")))
             timeTable.setCourse(courseRepository.findByCode(timeTableRequest.getCourseCode()));
@@ -62,20 +62,25 @@ public class TimeTableService {
         List<TimeTable> timeTables= timeTableRepository.findByClassIdOrderByPeriodAsc(classId);
         List<TimeTableResponse>timeTableResponses = new ArrayList<>();
         for( TimeTable timeTable:timeTables){
+            if(timeTable.getCourse()==null && timeTable.getCourseLab()==null)continue;
             TimeTableResponse timeTableResponse=new TimeTableResponse();
             timeTableResponse.setType(timeTable.getType());
             timeTableResponse.setDay(timeTable.getDay());
             timeTableResponse.setPeriod(timeTable.getPeriod());
             timeTableResponse.setGrp(timeTable.getGrp());
+            timeTableResponse.setClassId(timeTable.getClassId());
             if(timeTable.getCourse()!=null) {
                 timeTableResponse.setCourseCode(timeTable.getCourse().getCode());
-                timeTableResponse.setCourseName(timeTable.getCourse().getName());
+                timeTableResponse.setCourseName(timeTable.getCourse().getShortName());
                 timeTableResponse.setTeacherName(timeTable.getCourse().getProfessor().getName());
+                timeTableResponse.setLoc(timeTable.getLoc());
+
             }
             else if(timeTable.getCourseLab() != null){
                 timeTableResponse.setCourseCode(timeTable.getCourseLab().getCode());
-                timeTableResponse.setCourseName(timeTable.getCourseLab().getName());
+                timeTableResponse.setCourseName(timeTable.getCourseLab().getShortName());
                 timeTableResponse.setTeacherName(timeTable.getCourseLab().getProfessor().getName());
+                timeTableResponse.setLoc(timeTable.getLoc());
             }
             timeTableResponses.add(timeTableResponse);
         }
@@ -85,7 +90,7 @@ public class TimeTableService {
     public List<TimeTableResponse> getWeekTimeTable(String classId, String dateString, String group){
         LocalDate date = LocalDate.parse(dateString, DateTimeFormatter.BASIC_ISO_DATE);
         String day = String.valueOf(date.getDayOfWeek());
-        List<String> days = List.of("MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY");
+        List<String> days = List.of("Mon", "Tues", "Wed", "Thur", "Fri");
         int weekDay = (days.indexOf(day)+7)%7;
         LocalDate startDate = date.minusDays(weekDay);
         LocalDate endDate = date.plusDays(7-weekDay);
@@ -102,6 +107,7 @@ public class TimeTableService {
         }
 
         for(TimeTable timeTable: timeTables){
+            if(timeTable.getCourseLab()==null&&timeTable.getCourse()==null)continue;
             TimeTableResponse timeTableResponse=new TimeTableResponse();
 
             Change change = timeTableChange.get(timeTable.getId());
@@ -110,30 +116,37 @@ public class TimeTableService {
                 timeTableResponse.setType(timeTable.getType());
                 if(timeTable.getCourse()!=null) {
                     timeTableResponse.setCourseCode(timeTable.getCourse().getCode());
-                    timeTableResponse.setCourseName(timeTable.getCourse().getName());
+                    timeTableResponse.setCourseName(timeTable.getCourse().getShortName());
+                    if(timeTable.getCourse().getProfessor()!=null)
                     timeTableResponse.setTeacherName(timeTable.getCourse().getProfessor().getName());
                 }
                 else if(timeTable.getCourseLab() != null){
                     timeTableResponse.setCourseCode(timeTable.getCourseLab().getCode());
-                    timeTableResponse.setCourseName(timeTable.getCourseLab().getName());
+                    timeTableResponse.setCourseName(timeTable.getCourseLab().getShortName());
                     timeTableResponse.setTeacherName(timeTable.getCourseLab().getProfessor().getName());
                 }
             }else{
                 timeTableResponse.setType(change.getType());
                 if(change.getCourse()!=null) {
                     timeTableResponse.setCourseCode(change.getCourse().getCode());
-                    timeTableResponse.setCourseName(change.getCourse().getName());
+                    timeTableResponse.setCourseName(change.getCourse().getShortName());
                     timeTableResponse.setTeacherName(change.getCourse().getProfessor().getName());
+                    timeTableResponse.setLoc(change.getLoc());
+
                 }
                 else if(change.getCourseLab() != null){
                     timeTableResponse.setCourseCode(change.getCourseLab().getCode());
-                    timeTableResponse.setCourseName(change.getCourseLab().getName());
+                    timeTableResponse.setCourseName(change.getCourseLab().getShortName());
                     timeTableResponse.setTeacherName(change.getCourseLab().getProfessor().getName());
+                    timeTableResponse.setLoc(change.getLoc());
                 }
             }
+            timeTableResponse.setLoc(timeTable.getLoc());
             timeTableResponse.setDay(timeTable.getDay());
             timeTableResponse.setPeriod(timeTable.getPeriod());
             timeTableResponse.setGrp(timeTable.getGrp());
+            timeTableResponse.setClassId(timeTable.getClassId());
+
 
             response.add(timeTableResponse);
         }

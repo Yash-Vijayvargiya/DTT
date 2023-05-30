@@ -18,6 +18,8 @@ public class Course {
     @Column(unique = true)
     private String code;
     private String dept;
+    private String shortName;
+
 
     @JsonIgnore
     @ManyToOne

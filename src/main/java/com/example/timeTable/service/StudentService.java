@@ -21,4 +21,7 @@ public class StudentService {
     student.setClassID(request.getClassID());
     studentRepository.save(student);
   }
+  public Student getStudentByEmail(String email){
+    return studentRepository.findByEmailId(email);
+  }
 }

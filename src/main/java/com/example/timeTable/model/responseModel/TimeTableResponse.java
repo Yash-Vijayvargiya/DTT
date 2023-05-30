@@ -12,5 +12,7 @@ public class TimeTableResponse {
 
     private String teacherName;
     private String grp;
+    private String loc;
+    private String classId;
 
 }
