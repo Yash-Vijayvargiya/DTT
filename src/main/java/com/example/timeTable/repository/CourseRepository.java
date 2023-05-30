@@ -11,6 +11,7 @@ import java.util.List;
 
 @EnableJpaRepositories
 public interface CourseRepository extends JpaRepository<Course,Long> {
+    List<Course> findByProfessor_EmailId(String emailId);
     Course findByCode(String code);
     @Query("select c from Course c where c.professor = :professor order by c.professor")
     List<Course> findByProfId(@Param("professor") Professor professor);

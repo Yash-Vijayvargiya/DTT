@@ -20,7 +20,7 @@ public class CourseLabService {
         courseLab.setDept(courseLabRequest.getDept());
         courseLab.setName(courseLabRequest.getName());
         courseLab.setGrp(courseLabRequest.getGrp());
-        Professor professor=professorRepository.findByEmailId(courseLabRequest.getProfessorRequest().getEmailId());
+        Professor professor=professorRepository.findByEmailId(courseLabRequest.getProfessorEmail());
         courseLab.setProfessor(professor);
         courseLabRepository.save(courseLab);
     }

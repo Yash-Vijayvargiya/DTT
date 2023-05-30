@@ -22,10 +22,10 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
-    private String name;
+//    private String name;
     private String email;
     private String password;
-
+    private String userName;
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
@@ -37,6 +37,9 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return email;
+    }
+    public String getName(){
+        return userName;
     }
 
     @Override

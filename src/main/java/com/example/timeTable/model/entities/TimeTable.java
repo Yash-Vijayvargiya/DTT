@@ -22,6 +22,7 @@ public class TimeTable {
     private String type;
     private String classId;
     private String grp;
+    private String loc;
     @ManyToOne(targetEntity = Course.class)
     private Course course;
     @ManyToOne(targetEntity = CourseLab.class)

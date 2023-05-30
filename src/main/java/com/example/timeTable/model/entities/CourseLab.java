@@ -16,6 +16,7 @@ public class CourseLab {
     String code;
     String grp;
     String dept;
+    String shortName;
     @ManyToOne
     private Professor professor;
 }
